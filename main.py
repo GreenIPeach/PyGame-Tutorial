@@ -1,24 +1,37 @@
 import pygame
+import random
 
-#Init the pygame
+# Init the pygame
 pygame.init()
-#Init Screen
+# Init Screen
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Space Invaders")
 icon = pygame.image.load('ufo.png')
 pygame.display.set_icon(icon)
 windowRunning = True
 
-#Player
+# Player
 playerImg = pygame.image.load('spaceship.png')
 playerX = 370
 playerY = 480
 playerX_change = 0
-def player(x,y):
+
+# Enemy
+enemyImg = pygame.image.load('enemy.png')
+enemyX = random.randint(0,800)
+enemyY = random.randint(50,150)
+enemyX_change = 0
+
+
+def player(x, y):
     screen.blit(playerImg, (x, y))
 
 
-#Tick Game-Loop
+def enemy(x, y):
+    screen.blit(enemyImg, (x, y))
+
+
+# Tick Game-Loop
 while windowRunning:
     screen.fill((0, 0, 0))  # Fill with black background first
     for event in pygame.event.get():
@@ -42,4 +55,5 @@ while windowRunning:
         playerX = 736
 
     player(playerX, playerY)
+    enemy(enemyX,enemyY)
     pygame.display.update()
