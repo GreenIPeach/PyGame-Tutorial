@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 # Init the pygame
 pygame.init()
@@ -34,6 +35,8 @@ bulletY_change = 5
 # Fire - The bullet is currently moving
 bullet_state = "ready"
 
+score = 0
+
 
 def player(x, y):
     screen.blit(playerImg, (x, y))
@@ -47,6 +50,14 @@ def fire_bullet(x, y):
     global bullet_state
     bullet_state = "fire"
     screen.blit(bulletImg, (x + 16, y + 10))
+
+
+def isCollision(enemyX, enemyY, bulletX, bulletY):
+    distance = math.sqrt((math.pow(enemyX - bulletX, 2)) + (math.pow(enemyY - bulletY, 2)))
+    if distance < 27:
+        return True
+    else:
+        return False
 
 
 # Tick Game-Loop
@@ -96,6 +107,16 @@ while windowRunning:
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
 
+    # Collision
+    collision = isCollision(enemyX, enemyY, bulletX, bulletY)
+    if collision:
+        bulletY = 480
+        bullet_state = "ready"
+        score += 1
+        print(score)
+        enemyX = random.randint(0, 736)
+        enemyY = random.randint(50, 150)
+        
     player(playerX, playerY)
     enemy(enemyX, enemyY)
     pygame.display.update()
